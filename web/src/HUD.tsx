@@ -3,7 +3,8 @@ import AppController from "./AppController"
 import NoMatch from "./NoMatch"
 import Sidebar from "./Sidebar"
 import SidebarAccount from "./SidebarAccount"
-import SidebarResources, { SidebarItem } from "./SidebarResources"
+import SidebarItem from "./SidebarItem"
+import SidebarResources from "./SidebarResources"
 import Statusbar, { StatusItem } from "./Statusbar"
 import LogPane from "./LogPane"
 import HeroScreen from "./HeroScreen"
@@ -117,12 +118,18 @@ class HUD extends Component<HudProps, HudState> {
     } else {
       this.controller.createNewSocket()
     }
+
+    document.body.addEventListener("keydown", this.onKeydown)
   }
 
   componentWillUnmount() {
+    document.body.removeEventListener("keydown", this.onKeydown)
+
     this.controller.dispose()
     this.unlisten()
   }
+
+  onKeydown(e: Event) {}
 
   setAppState<K extends keyof HudState>(state: Pick<HudState, K>) {
     this.setState(prevState => {
